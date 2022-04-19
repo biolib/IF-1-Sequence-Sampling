@@ -1,0 +1,41 @@
+biolib_version: 2
+modules:
+    main:
+        image: 'local-docker://inverse-folding:latest'
+        command: python3 run.py
+        input_files:
+            - COPY / /
+        output_files:
+            - COPY /output/ /
+        source_files: []
+
+        required_cpu_in_nano_shares: 4000000000
+        required_memory_in_bytes: 16000000000
+
+
+main_output_file: /output.md
+
+arguments:
+    -
+        default_value: sample.pdb
+        description: 'Enter your protein structure as a PDB file:'
+        key: ''
+        key_value_separator: ' '
+        required: true
+        type: file
+
+    -
+        default_value: 1
+        description: 'Sequences to sample:'
+        key: '--num-samples'
+        key_value_separator: ' '
+        required: false
+        type: integer
+
+    -
+        default_value: ''
+        description: 'Score the sequences by log likelihood?:'
+        key: '--score'
+        key_value_separator: ' '
+        required: false
+        type: boolean
