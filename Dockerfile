@@ -18,7 +18,6 @@ RUN pip install urllib3==1.23
 RUN pip install pandas
 RUN pip install tabulate
 
-COPY 2OXP.pdb 2OXP.pdb
 COPY esm_if1_gvp4_t16_142M_UR50.pt /root/.cache/torch/hub/checkpoints/esm_if1_gvp4_t16_142M_UR50.pt
-COPY selected_prediction.pdb selected_prediction.pdb
 COPY run.py run.py
+COPY sample.pdb sample.pdb

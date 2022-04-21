@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from tqdm import tqdm
 from biotite.sequence.io.fasta import FastaFile, get_sequences
 import os
-
+import warnings
 import esm
 
 
@@ -40,6 +40,9 @@ def main():
     )
     args = parser.parse_args()
 
+    warnings.filterwarnings("ignore")
+
+
     os.mkdir('output')
 
     model, alphabet = esm.pretrained.esm_if1_gvp4_t16_142M_UR50()
@@ -55,8 +58,7 @@ def main():
         for i in range(args.num_samples):
             print(f'\nSampling sequences... ({i+1} of {args.num_samples})')
             sampled_seq = model.sample(coords, temperature=args.temperature)
-            print('Sampled sequence:')
-            print(sampled_seq)
+            print(f'Sequence: {sampled_seq}')
             f.write(f'>sampled_seq_{i+1}\n')
             f.write(sampled_seq + '\n')
             if args.score:
@@ -64,6 +66,10 @@ def main():
 
             recovery = np.mean([(a==b) for a, b in zip(seq, sampled_seq)])
             print('Sequence recovery:', recovery)
+
+    output_file = open('output/output.md', 'w')
+    print("You can download the sampled sequences [here](sampled_seqs.fasta)\n", file=output_file)
+
 
     if args.score:
         ll, _ = esm.inverse_folding.util.score_sequence(
@@ -83,16 +89,15 @@ def main():
                         model, alphabet, coords, str(seq))
                 fout.write(header + ',' + str(ll) + '\n')
 
-        output_file = open('output/output.md', 'w')
-
         df = pandas.read_csv('output/sampled_seqs_scored.csv')
-        print("\n\nSampled Sequences Log Likelihood:", file=output_file)
+        print("You can download the scorings for the sequences [here](sampled_seqs_scored.csv) \n", file=output_file)
+        print("\n\nSampled Sequences Log Likelihood:\n", file=output_file)
         print(df.to_markdown(), file=output_file)
 
         best_sequence_idx = df[['log_likelihood']].idxmax()
         best_sequence_id = df['seqid'][best_sequence_idx].iloc[0]
 
-        print(f'\nBest sequence is {best_sequence_id}', file=output_file)
+        print(f'\n Highest scoring sequence is **{best_sequence_id}**', file=output_file)
         print(seq_dict[best_sequence_id], file=output_file)
 
 

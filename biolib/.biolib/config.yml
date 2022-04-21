@@ -1,7 +1,7 @@
 biolib_version: 2
 modules:
     main:
-        image: 'local-docker://inverse-folding:latest'
+        image: 'local-docker://inverse:latest'
         command: python3 run.py
         input_files:
             - COPY / /
@@ -26,16 +26,19 @@ arguments:
 
     -
         default_value: 1
-        description: 'Sequences to sample:'
+        description: 'Number of sequences to sample:'
         key: '--num-samples'
         key_value_separator: ' '
         required: false
-        type: integer
+        type: number 
 
     -
         default_value: ''
         description: 'Score the sequences by log likelihood?:'
-        key: '--score'
+        key: ''
         key_value_separator: ' '
         required: false
-        type: boolean
+        type: toggle 
+        options:
+          'off': ''
+          'on': '--score'
