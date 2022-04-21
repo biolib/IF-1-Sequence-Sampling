@@ -11,10 +11,7 @@ modules:
 
         required_cpu_in_nano_shares: 4000000000
         required_memory_in_bytes: 16000000000
-
-
 main_output_file: /output.md
-
 arguments:
     -
         default_value: sample.pdb
@@ -42,3 +39,13 @@ arguments:
         options:
           'off': ''
           'on': '--score'
+citation:
+    entry_type: article
+    author: Chloe Hsu, Robert Verkuil, Jason Liu, Zeming Lin, Brian Hie, Tom Sercu, Adam Lerer, Alexander Rives
+    title: "Learning inverse folding from millions of predicted structures"
+    journal: bioRxiv
+    year: '2022'
+    volume: ' '
+    doi: 'doi:10.1101/2022.04.10.487779-'
+
+
