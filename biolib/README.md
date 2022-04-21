@@ -9,7 +9,11 @@ The sequences can also be scored by the model, the scores are the conditional lo
 ### Run from Python
 This tool can also easily be run from Python with BioLib 🐍
 
-Demo: https://colab.research.google.com/drive/1YgDSxeydn4FHjJuqfuavRW7erhoRFhka?usp=sharing
+
+```python
+```
+
+We have also created a [python notebook](https://colab.research.google.com/drive/1YgDSxeydn4FHjJuqfuavRW7erhoRFhka?usp=sharing) with an example. 
 
 
 ### About IF-1
@@ -19,6 +23,7 @@ IF-1 is a model that stacks a transformer on top of the GVP (Geometric Vector Pe
 The model has been trained on 12 million structures where all but ~16k of them are predicted structures.
 
 ### Acknowledgements
+
 The IF-1 model was built by a team at Meta AI led by Chloe Hsu.
 
 Please check out the implementation here:
