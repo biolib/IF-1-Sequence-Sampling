@@ -11,6 +11,10 @@ This tool can also easily be run from Python with BioLib 🐍
 
 
 ```python
+import biolib
+
+if1_dev = biolib.load('Protein-Tools/Sequence-Sampler-IF1')
+print(if1_dev.cli(args='your.pdb --chain A --num-samples 1'))
 ```
 
 We have also created a [python notebook](https://colab.research.google.com/drive/1YgDSxeydn4FHjJuqfuavRW7erhoRFhka?usp=sharing) with an example. 
@@ -26,11 +30,13 @@ The model has been trained on 12 million structures where all but ~16k of them a
 
 The IF-1 model was built by a team at Meta AI led by Chloe Hsu.
 
-Please check out the implementation here:
-
-https://github.com/facebookresearch/esm/tree/main/esm/inverse_folding
+Please check out the implementation in their [GitHub repository](https://github.com/facebookresearch/esm/tree/main/esm/inverse_folding)
 
 
 Please cite their amazing paper if using this application in research:
 
-https://www.biorxiv.org/content/10.1101/2022.04.10.487779v1 
+```
+Learning inverse folding from millions of predicted structures
+Chloe Hsu, Robert Verkuil, Jason Liu, Zeming Lin, Brian Hie, Tom Sercu, Adam Lerer, Alexander Rives
+bioRxiv 2022.04.10.487779; doi: https://doi.org/10.1101/2022.04.10.487779
+```
