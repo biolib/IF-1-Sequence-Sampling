@@ -1,14 +1,23 @@
-import argparse
-import numpy as np
-import pandas as pandas
-from pathlib import Path
-import torch
-import torch.nn.functional as F
-from tqdm import tqdm
-from biotite.sequence.io.fasta import FastaFile, get_sequences
 import os
 import warnings
+import argparse
+from pathlib import Path
+from tqdm import tqdm
+
+import numpy as np
+import pandas as pandas
+
+import torch
+import torch.nn.functional as F
+
+from biotite.sequence.io.fasta import FastaFile, get_sequences
+
 import esm
+
+# Pre-process module
+import sys
+sys.path.append('/')
+from preprocess import NonHetSelect
 
 
 def main():
@@ -41,13 +50,21 @@ def main():
     args = parser.parse_args()
 
     warnings.filterwarnings("ignore")
-
-
     os.mkdir('output')
 
+    # Pre-process the input file
+    preprocess = NonHetSelect()
+    preprocess.save_new_pdb(args.pdbfile)
+
+    # New input file name
+    pdbfile = f"non_het_{args.pdbfile}"
+    #pdbfile = args.pdbfile
+    
+    # Load the model
     model, alphabet = esm.pretrained.esm_if1_gvp4_t16_142M_UR50()
 
-    coords, seq = esm.inverse_folding.util.load_coords(args.pdbfile, args.chain)
+    # Load the file
+    coords, seq = esm.inverse_folding.util.load_coords(pdbfile, args.chain)
     print('Sequence loaded from file:')
     print(seq)
 

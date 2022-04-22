@@ -13,8 +13,9 @@ RUN pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.0+cu111.htm
 RUN pip install torch-spline-conv -f https://data.pyg.org/whl/torch-1.10.0+cu111.html
 
 RUN pip install -q git+https://github.com/facebookresearch/esm.git
-RUN pip install -q urllib3==1.23 pandas tabulate biotite
+RUN pip install -q urllib3==1.23 pandas tabulate biotite biopython
 
 COPY esm_if1_gvp4_t16_142M_UR50.pt /root/.cache/torch/hub/checkpoints/esm_if1_gvp4_t16_142M_UR50.pt
 COPY run.py run.py
+COPY preprocess.py preprocess.py
 COPY sample.pdb sample.pdb
