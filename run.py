@@ -118,8 +118,8 @@ def main():
             print('Sequence recovery:', recovery)
 
     output_file = open('output/output.md', 'w')
-    print(
-        "You can download the sampled sequences [here](sampled_seqs.fasta)\n", file=output_file)
+    print("### Sequence sampler IF1 results\n", file=output_file)
+    print("You can download the sampled sequences [here](sampled_seqs.fasta)\n", file=output_file)
 
     if args.score:
         ll, _ = esm.inverse_folding.util.score_sequence(
@@ -140,17 +140,17 @@ def main():
                 fout.write(header + ',' + str(ll) + '\n')
 
         df = pandas.read_csv('output/sampled_seqs_scored.csv')
-        print(
-            "You can download the scorings for the sequences [here](sampled_seqs_scored.csv) \n", file=output_file)
-        print("\n\nSampled Sequences Log Likelihood:\n", file=output_file)
+        print("You can download the scorings for the sequences [here](sampled_seqs_scored.csv) \n", file=output_file)
+        print("\n\nSampled Sequences ranked by Log Likelihood:\n", file=output_file)
+        df = df.sort_values(by=['log_likelihood'], ascending=False) 
         print(df.to_markdown(), file=output_file)
 
         best_sequence_idx = df[['log_likelihood']].idxmax()
         best_sequence_id = df['seqid'][best_sequence_idx].iloc[0]
 
         print(
-            f'\n Highest scoring sequence is **{best_sequence_id}**', file=output_file)
-        print(seq_dict[best_sequence_id], file=output_file)
+            f'\n Highest scoring sequence is **{best_sequence_id}**:', file=output_file)
+        print(f"```{seq_dict[best_sequence_id]}```", file=output_file)
 
 
 if __name__ == '__main__':
