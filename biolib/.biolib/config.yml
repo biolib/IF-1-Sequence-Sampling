@@ -39,6 +39,26 @@ arguments:
         options:
           'off': ''
           'on': '--score'
+    -   
+        default_value: ''
+        description: 'Mask your backbone:'
+        key: ''
+        key_value_separator: ''
+        type: toggle
+        required: false
+        options: 
+            'off': ''
+            'on': '--mask'
+        sub_arguments:
+            '--mask':
+                -
+                    key: ''
+                    key_value_separator: ''
+                    default_value: ''
+                    description: 'Add the sequence masking ranges, e.g.: 10-15,21-25'
+                    type: text
+                    required: false
+
 citation:
     entry_type: article
     author: Chloe Hsu, Robert Verkuil, Jason Liu, Zeming Lin, Brian Hie, Tom Sercu, Adam Lerer, Alexander Rives

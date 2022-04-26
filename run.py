@@ -71,17 +71,36 @@ def main():
     # Load the file
     # Their utilities are not working with cif files # TODO
     coords, seq = esm.inverse_folding.util.load_coords(pdbfile, args.chain)
+    
+    masked_seq = np.array(list(seq))
     if args.mask is not None:
         print("Masking option active, masking your sequence...")
         # Select the range for masking
-        mask = args.mask.spli(",")
+        mask = args.mask.replace(" ", "").split(",")
         for m in mask:
-                start = m.split('-')[0]
-                end = m.split('-')[-1]
-                coords[start:end, :] = float('inf')
+                if m.find("-") != -1:
+                        start = int(m.split('-')[0])
+                        end = int(m.split('-')[-1])
+                        # Asses too long mask span, if its 30 residues (so if 1-30, includes 1 and 30, this is why 29)
+                        if end - start >= 29:
+                                print(f"Warning! The mask span is longer than 30 residues, it can produce low performance results. \n\tStart of the mask: {start}\n\tEnd of the span: {end}\t")
+                        # -1 because python lists start at 0
+                        coords[start-1:end, :] = float('inf')
+                        masked_seq[start-1:end] = "*" 
+                else:
+                        # For single numbers
+                        start = int(m)
+                        # -1 because python lists start at 0
+                        coords[start-1, :] = float('inf')
+                        masked_seq[start-1]= "*" 
+                        
+           
     print('Sequence loaded from file:')
     print(seq)
-
+    
+    if args.mask is not None: print(f"Your sequence was masked to:\n{''.join(masked_seq)}\n")
+    
+    print("Start sampling...")
     if args.score:
         seq_dict = {}
 
