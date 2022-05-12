@@ -14,12 +14,12 @@ modules:
 main_output_file: /output.md
 arguments:
     -
-        default_value: sample.pdb
+        default_value: "example.pdb"
         description: 'Enter your protein structure as a PDB file:'
         key: ''
         key_value_separator: ' '
         required: true
-        type: file
+        type: text-file
 
     -
         default_value: 1
