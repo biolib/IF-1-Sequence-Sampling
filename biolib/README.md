@@ -18,7 +18,7 @@ sampler_results = sequence_sampler_if1.cli(args='your_file.pdb --chain A --score
 sampler_results.save_files("your_results/")
 ```
 
-We have also created a [python notebook](https://colab.research.google.com/drive/1YgDSxeydn4FHjJuqfuavRW7erhoRFhka?usp=sharing) with an example. 
+We have also created a [python notebook](https://colab.research.google.com/drive/1ctFs0Gr6M05HTq3i4it5eI4ydL0jAcnL?usp=sharing) with an example. 
 
 
 ### About IF-1
