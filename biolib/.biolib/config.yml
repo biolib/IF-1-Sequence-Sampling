@@ -3,14 +3,15 @@ modules:
     main:
         image: 'local-docker://inverse:latest'
         command: python3 run.py
+        working_directory: /home/biolib/
         input_files:
-            - COPY / /
+            - COPY / /home/biolib/
         output_files:
-            - COPY /output/ /
+            - COPY /home/biolib/output/ /
         source_files: []
-
         required_cpu_in_nano_shares: 4000000000
         required_memory_in_bytes: 16000000000
+        gpu: required
 main_output_file: /output.md
 arguments:
     -
