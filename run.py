@@ -178,7 +178,7 @@ def main():
             df = pandas.read_csv('output/sampled_seqs_scored.csv')
             print("You can download the scorings for the sequences [here](sampled_seqs_scored.csv) \n", file=output_file)
             print("\n\nSampled Sequences ranked by Log Likelihood:\n", file=output_file)
-            df = df.sort_values(by=['log_likelihood'], ascending=False) 
+            df = df.sort_values(by=['log_likelihood'], ascending=True) 
             print(df.to_markdown(), file=output_file)
 
             best_sequence_idx = df[['log_likelihood']].idxmax()
