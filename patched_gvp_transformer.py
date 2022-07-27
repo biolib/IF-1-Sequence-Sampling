@@ -85,7 +85,7 @@ class GVPTransformerModel(nn.Module):
         )
         return logits, extra
     
-    def sample(self, coords, device, temperature=1.0, confidence=None):
+    def sample(self, coords, device, temperature=1.0, confidence=None, fixed_positions={}):
         """
         Samples sequences based on greedy sampling (no beam search).
 
@@ -114,6 +114,10 @@ class GVPTransformerModel(nn.Module):
         
         # Decode one token at a time
         for i in range(1, L+1):
+            if i in fixed_positions.keys():
+                sampled_tokens[:, i] = self.decoder.dictionary.get_idx(fixed_positions[i])
+                continue
+
             logits, _ = self.decoder(
                 sampled_tokens[:, :i].to(device), 
                 encoder_out,

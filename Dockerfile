@@ -20,10 +20,10 @@ RUN pip install torch-spline-conv -f https://data.pyg.org/whl/torch-1.10.0+cu111
 RUN pip install -q git+https://github.com/facebookresearch/esm.git@98017169c5e55388f3fa3b467693d3a162d084fd
 RUN pip install -q urllib3==1.23 pandas tabulate biotite biopython
 COPY patched_util.py /usr/local/lib/python3.8/dist-packages/esm/inverse_folding/util.py
-COPY patched_gvp_transformer.py /usr/local/lib/python3.8/dist-packages/esm/inverse_folding/gvp_transformer.py
 COPY esm_if1_gvp4_t16_142M_UR50.pt /root/.cache/torch/hub/checkpoints/esm_if1_gvp4_t16_142M_UR50.pt
 
 WORKDIR /home/biolib
 COPY run.py run.py
 COPY preprocess.py preprocess.py
 COPY sample.pdb example.pdb
+COPY patched_gvp_transformer.py /usr/local/lib/python3.8/dist-packages/esm/inverse_folding/gvp_transformer.py
