@@ -56,6 +56,11 @@ def main():
             '--mask', 
             help='Mask part of the sequence. Eg: Mask from residue 10 to 15 and from residue 21 to 25: 10-15,21-25.'       
     )
+    parser.add_argument(
+        '--fix-pos',
+        help='Fix part of the sequence. Eg: Fix from residue 10 to 15 and from residue 21 to 25: 10-15,21-25.',
+        type=str,
+    )
     
     args = parser.parse_args()
 
@@ -116,6 +121,21 @@ def main():
             
         print('Sequence loaded from file:')
         print(seq)
+
+        fixed_position_dict = {}
+        if args.fix_pos:
+            fixed_positions = []
+            fixed_positions_string = args.fix_pos.replace(" ", "").split(",")
+            for pos in fixed_positions_string:
+                if pos.find("-") != -1:
+                    start = int(pos.split('-')[0])
+                    end = int(pos.split('-')[-1])
+                    fixed_positions.extend(range(start, end))
+                
+                else:
+                    fixed_positions.append(int(pos))
+
+            fixed_position_dict = {position_idx: seq[position_idx-1] for position_idx in fixed_positions}
         
         if args.mask is not None: print(f"Your sequence was masked to:\n{''.join(masked_seq)}\n")
         
@@ -137,7 +157,7 @@ def main():
             with open('output/sampled_seqs.fasta', 'w') as f:
                 for i in range(args.num_samples):
                     print(f'\nSampling sequences... ({i+1} of {args.num_samples})')
-                    sampled_seq = model.sample(coords, device, temperature=args.temperature)
+                    sampled_seq = model.sample(coords, device, temperature=args.temperature, fixed_positions=fixed_position_dict)
                     print(f'Sequence: {sampled_seq}')
                     f.write(f'>sampled_seq_{i+1}\n')
                     f.write(sampled_seq + '\n')
